@@ -1,0 +1,42 @@
+{
+  "name": "movies-api",
+  "version": "1.0.0",
+  "description": "TSH recruitment task",
+  "main": "index.js",
+  "scripts": {
+    "clear": "rimraf dist",
+    "start": "npm run clear && ts-node-dev index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arturwita/movies-api.git"
+  },
+  "keywords": [],
+  "author": "arturwita",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arturwita/movies-api/issues"
+  },
+  "homepage": "https://github.com/arturwita/movies-api#readme",
+  "dependencies": {
+    "awilix": "^5.0.1",
+    "config": "^3.3.6",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "@types/config": "^0.0.39",
+    "@types/express": "^4.17.13",
+    "@types/node": "^16.9.5",
+    "@typescript-eslint/eslint-plugin": "^4.31.2",
+    "@typescript-eslint/parser": "^4.31.2",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "rimraf": "^3.0.2",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.4.3"
+  }
+}
