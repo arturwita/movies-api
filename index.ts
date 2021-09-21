@@ -3,6 +3,7 @@ dotenv.config();
 
 import config from "config";
 import express from "express";
+import { Logger } from "./src/util/logger";
 
 const app = express();
 
@@ -13,5 +14,5 @@ app.get("/", (_req, res) => {
 const { port } = config.get("app");
 
 app.listen(port, () => {
-    console.log(`App listening at http://localhost:${port}`);
+    new Logger().info(`App listening at http://localhost:${port}`);
 });
