@@ -2,6 +2,8 @@ import { ParsedQuery } from "../controller/dto/query.dto";
 import { ContainerDependencies } from "../dependency-injection/container";
 import { MovieRepository } from "../repository/movie.repository";
 import { Movie } from "../dto/movie.dto";
+import { Exception } from "../error/exception";
+import { HTTP_ERROR_CODE } from "../error/error-codes";
 
 export class MovieService {
     movieRepository: MovieRepository;
@@ -20,6 +22,6 @@ export class MovieService {
     }
 
     validate(): void {
-        return;
+        throw new Exception(400, "Invalid movie schema", HTTP_ERROR_CODE.BAD_REQUEST);
     }
 }

@@ -21,7 +21,7 @@ export class MovieController {
     }
 
     addMovie(_req: Request, res: Response, _next: NextFunction): void {
-        // const response = this.movieService.addMovie();
+        this.movieService.addMovie();
 
         res.send({ addMovie: "TODO" });
     }

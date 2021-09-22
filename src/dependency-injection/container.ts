@@ -7,12 +7,14 @@ import { MovieController } from "../controller/movie.controller";
 import { MovieService } from "../service/movie.service";
 import { MovieRepository } from "../repository/movie.repository";
 import { LoggerMiddleware } from "../middleware/logger.middleware";
+import { ErrorHandlerMiddleware } from "../middleware/error-handler.middleware";
 
 export interface ContainerDependencies {
     app: Express;
     config: IConfig;
     logger: Logger;
     loggerMiddleware: LoggerMiddleware;
+    errorHandler: ErrorHandlerMiddleware;
     movieRoutes: MovieRoutes;
     movieController: MovieController;
     movieService: MovieService;
@@ -32,6 +34,7 @@ export class Container {
             config: asValue(config),
             logger: asClass(Logger),
             loggerMiddleware: asClass(LoggerMiddleware),
+            errorHandler: asClass(ErrorHandlerMiddleware),
             movieRoutes: asClass(MovieRoutes),
             movieController: asClass(MovieController),
             movieService: asClass(MovieService),
