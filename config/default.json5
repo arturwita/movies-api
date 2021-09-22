@@ -1,6 +1,7 @@
 {
     app: {
         durationOffset: 10,
-        logLevel: "debug"
+        logLevel: "debug",
+        dbPath: "./data/db.json",
     }
 }

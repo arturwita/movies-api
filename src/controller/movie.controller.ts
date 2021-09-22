@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { ContainerDependencies } from "../dependency-injection/container";
-import { MovieService } from "../service/movie-service";
+import { MovieService } from "../service/movie.service";
 import { ParsedQuery, QueryParams } from "./dto/query.dto";
 
 type RequestWithParams = Request<{}, {}, {}, QueryParams>;
