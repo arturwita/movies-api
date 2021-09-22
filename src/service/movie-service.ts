@@ -1,5 +1,7 @@
+import { ParsedQuery } from "../controller/dto/query.dto";
+
 export class MovieService {
-    getMovies(): string {
+    getMovies(_query: ParsedQuery): string {
         return "TODO";
     }
 
