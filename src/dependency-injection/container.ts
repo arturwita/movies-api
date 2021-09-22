@@ -6,11 +6,8 @@ import { MovieRoutes } from "../router/movie-routes";
 import { MovieController } from "../controller/movie-controller";
 import { MovieService } from "../service/movie-service";
 
-export interface ContainerProps {
+export interface ContainerDependencies {
     app: Express;
-}
-
-export interface ContainerDependencies extends ContainerProps {
     config: IConfig;
     logger: Logger;
     movieRoutes: MovieRoutes;
@@ -21,7 +18,7 @@ export interface ContainerDependencies extends ContainerProps {
 export class Container {
     readonly container: AwilixContainer;
 
-    constructor({ app }: ContainerProps) {
+    constructor(app: Express) {
         this.container = createContainer({
             injectionMode: InjectionMode.PROXY,
         });

@@ -5,7 +5,7 @@ import express from "express";
 import { Container } from "./src/dependency-injection/container";
 import { movieUrl } from "./src/router/movie-routes";
 
-const { app, config, logger, movieRoutes } = new Container({ app: express() }).cradle();
+const { app, config, logger, movieRoutes } = new Container(express()).cradle();
 
 app.use(movieUrl, movieRoutes.getRouter());
 
