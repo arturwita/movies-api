@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { ContainerDependencies } from "../dependency-injection/container";
 
-export class MovieRoutes {
+export class MovieRouter {
     readonly router: Router;
 
     constructor({ movieController }: ContainerDependencies) {

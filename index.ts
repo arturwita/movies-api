@@ -5,11 +5,11 @@ import express from "express";
 import { Container } from "./src/dependency-injection/container";
 import { moviesUrl } from "./src/router/url";
 
-const { app, config, logger, movieRoutes, loggerMiddleware, errorHandler } = new Container(express()).cradle();
+const { app, config, logger, movieRouter, loggerMiddleware, errorHandler } = new Container(express()).cradle();
 
 app.use(express.json());
 app.use(loggerMiddleware.use.bind(loggerMiddleware));
-app.use(moviesUrl, movieRoutes.getRouter());
+app.use(moviesUrl, movieRouter.getRouter());
 app.use(errorHandler.use);
 
 const { port } = config.get("app");

@@ -2,7 +2,7 @@ import { asClass, asValue, createContainer, InjectionMode, AwilixContainer } fro
 import config, { IConfig } from "config";
 import { Express } from "express";
 import { Logger } from "../util/logger";
-import { MovieRoutes } from "../router/movie-routes";
+import { MovieRouter } from "../router/movie-router";
 import { MovieController } from "../controller/movie.controller";
 import { MovieService } from "../service/movie.service";
 import { MovieRepository } from "../repository/movie.repository";
@@ -15,7 +15,7 @@ export interface ContainerDependencies {
     logger: Logger;
     loggerMiddleware: LoggerMiddleware;
     errorHandler: ErrorHandlerMiddleware;
-    movieRoutes: MovieRoutes;
+    movieRouter: MovieRouter;
     movieController: MovieController;
     movieService: MovieService;
     movieRepository: MovieRepository;
@@ -35,7 +35,7 @@ export class Container {
             logger: asClass(Logger),
             loggerMiddleware: asClass(LoggerMiddleware),
             errorHandler: asClass(ErrorHandlerMiddleware),
-            movieRoutes: asClass(MovieRoutes),
+            movieRouter: asClass(MovieRouter),
             movieController: asClass(MovieController),
             movieService: asClass(MovieService),
             movieRepository: asClass(MovieRepository),
