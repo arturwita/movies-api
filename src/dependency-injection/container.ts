@@ -5,6 +5,7 @@ import { Logger } from "../util/logger";
 import { MovieRoutes } from "../router/movie-routes";
 import { MovieController } from "../controller/movie-controller";
 import { MovieService } from "../service/movie-service";
+import { LoggerMiddleware } from "../middleware/logger.middleware";
 
 export interface ContainerDependencies {
     app: Express;
@@ -13,6 +14,7 @@ export interface ContainerDependencies {
     movieRoutes: MovieRoutes;
     movieController: MovieController;
     movieService: MovieService;
+    loggerMiddleware: LoggerMiddleware;
 }
 
 export class Container {
@@ -30,6 +32,7 @@ export class Container {
             movieService: asClass(MovieService),
             movieController: asClass(MovieController),
             movieRoutes: asClass(MovieRoutes),
+            loggerMiddleware: asClass(LoggerMiddleware),
         });
     }
 

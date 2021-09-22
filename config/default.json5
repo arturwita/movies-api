@@ -1,6 +1,6 @@
 {
     app: {
         durationOffset: 10,
-        logLevel: "info"
+        logLevel: "debug"
     }
 }
