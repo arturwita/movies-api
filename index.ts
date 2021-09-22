@@ -1,18 +1,16 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import config from "config";
 import express from "express";
-import { Logger } from "./src/util/logger";
+import { Container } from "./src/dependency-injection/container";
+import { movieUrl } from "./src/router/movie-routes";
 
-const app = express();
+const { app, config, logger, movieRoutes } = new Container({ app: express() }).cradle();
 
-app.get("/", (_req, res) => {
-    res.send("Hello World!");
-});
+app.use(movieUrl, movieRoutes.getRouter());
 
 const { port } = config.get("app");
 
 app.listen(port, () => {
-    new Logger().info(`App listening at http://localhost:${port}`);
+    logger.info(`App listening at http://localhost:${port}`);
 });

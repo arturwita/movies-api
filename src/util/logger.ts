@@ -1,5 +1,5 @@
 import { createLogger, transports, format, Logger as WinstonLogger } from "winston";
-import config from "config";
+import { ContainerDependencies } from "../dependency-injection/container";
 
 enum LOG_LEVEL {
     INFO = "info",
@@ -10,7 +10,7 @@ enum LOG_LEVEL {
 export class Logger {
     private readonly logger: WinstonLogger;
 
-    constructor() {
+    constructor({ config }: ContainerDependencies) {
         this.logger = createLogger({
             transports: new transports.Console({
                 level: config.get("app.logLevel"),
