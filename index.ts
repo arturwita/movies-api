@@ -10,7 +10,7 @@ const { app, config, logger, movieRoutes, loggerMiddleware, errorHandler } = new
 app.use(express.json());
 app.use(loggerMiddleware.use.bind(loggerMiddleware));
 app.use(moviesUrl, movieRoutes.getRouter());
-app.use(errorHandler.use.bind(errorHandler));
+app.use(errorHandler.use);
 
 const { port } = config.get("app");
 
