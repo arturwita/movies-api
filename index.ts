@@ -3,11 +3,11 @@ dotenv.config();
 
 import express from "express";
 import { Container } from "./src/dependency-injection/container";
-import { movieUrl } from "./src/router/movie-routes";
+import { moviesUrl } from "./src/router/url";
 
 const { app, config, logger, movieRoutes } = new Container(express()).cradle();
 
-app.use(movieUrl, movieRoutes.getRouter());
+app.use(moviesUrl, movieRoutes.getRouter());
 
 const { port } = config.get("app");
 

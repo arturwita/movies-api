@@ -1,8 +1,6 @@
 import { Router } from "express";
 import { ContainerDependencies } from "../dependency-injection/container";
 
-export const movieUrl = "/movies";
-
 export class MovieRoutes {
     readonly router: Router;
 
