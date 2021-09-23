@@ -22,4 +22,9 @@ export class MovieRepository {
     getMovies(): Movie[] {
         return this.db.movies;
     }
+
+    saveMovie(movie: Movie): Movie {
+        // TODO
+        return movie;
+    }
 }

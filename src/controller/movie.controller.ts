@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import { ContainerDependencies } from "../dependency-injection/container";
 import { MovieService } from "../service/movie.service";
-import { ParsedQuery, QueryParams } from "./dto/query.dto";
+import { ParsedQuery, QueryParams } from "../dto/query.dto";
+import { MovieInput } from "../dto/movie.dto";
 
-type RequestWithParams = Request<{}, {}, {}, QueryParams>;
+type CustomRequest = Request<{}, {}, MovieInput, QueryParams>;
 
 export class MovieController {
     readonly movieService: MovieService;
@@ -12,18 +13,19 @@ export class MovieController {
         this.movieService = movieService;
     }
 
-    getMovies(req: RequestWithParams, res: Response, _next: NextFunction): void {
+    getMovies(req: CustomRequest, res: Response, _next: NextFunction): void {
         const query = this.parseQuery(req.query);
 
-        this.movieService.getMovies(query);
+        const movies = this.movieService.getMovies(query);
 
-        res.send({ getMovies: "TODO" });
+        res.send({ movies });
     }
 
-    addMovie(_req: Request, res: Response, _next: NextFunction): void {
-        this.movieService.addMovie();
+    addMovie(req: CustomRequest, res: Response, _next: NextFunction): void {
+        const movieInput = req.body;
+        const movie = this.movieService.addMovie(movieInput);
 
-        res.send({ addMovie: "TODO" });
+        res.status(201).send({ movie });
     }
 
     private parseQuery(query: QueryParams): ParsedQuery {
