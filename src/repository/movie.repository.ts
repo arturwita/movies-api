@@ -1,3 +1,4 @@
+import { writeFileSync, readFileSync } from "fs";
 import { ContainerDependencies } from "../dependency-injection/container";
 import { Movie } from "../dto/movie.dto";
 import { Genre } from "../dto/genre.dto";
@@ -8,23 +9,35 @@ interface FileDatabase {
 }
 
 export class MovieRepository {
-    private db: FileDatabase;
+    readonly dbPath: string;
 
     constructor({ config }: ContainerDependencies) {
-        const { dbPath } = config.get("app");
-        this.db = require(dbPath);
+        this.dbPath = config.get("app.dbPath");
+    }
+
+    private readDbFile(): FileDatabase {
+        const buffer = readFileSync(this.dbPath);
+        return JSON.parse(buffer.toString());
     }
 
     getGenres(): Genre[] {
-        return this.db.genres;
+        const { genres } = this.readDbFile();
+        return genres;
     }
 
     getMovies(): Movie[] {
-        return this.db.movies;
+        const { movies } = this.readDbFile();
+        return movies;
     }
 
     saveMovie(movie: Movie): Movie {
-        // TODO
+        // TODO: it saves runtime and year as numbers instead of strings
+        const db = this.readDbFile();
+        db.movies.push(movie);
+
+        const updatedDb = JSON.stringify(db, null, 4);
+        writeFileSync(this.dbPath, updatedDb);
+
         return movie;
     }
 }
