@@ -1,11 +1,12 @@
 import { writeFileSync, readFileSync } from "fs";
 import { AppDependencies } from "../dependency-injection/container";
-import { Movie } from "../dto/movie.dto";
+import { DbMovie, Movie } from "../dto/movie.dto";
 import { Genre } from "../dto/genre.dto";
+import { dbMovieToMovieConverter, movieToDbMovieConverter } from "../converter/movie.converter";
 
 interface FileDatabase {
     genres: Genre[];
-    movies: Movie[];
+    movies: DbMovie[];
 }
 
 export class MovieRepository {
@@ -27,13 +28,14 @@ export class MovieRepository {
 
     getMovies(): Movie[] {
         const { movies } = this.readDbFile();
-        return movies;
+        return movies.map(movie => dbMovieToMovieConverter(movie));
     }
 
     saveMovie(movie: Movie): Movie {
-        // TODO: it saves runtime and year as numbers instead of strings
         const db = this.readDbFile();
-        db.movies.push(movie);
+
+        const dbMovie = movieToDbMovieConverter(movie);
+        db.movies.push(dbMovie);
 
         const updatedDb = JSON.stringify(db, null, 4);
         writeFileSync(this.dbPath, updatedDb);

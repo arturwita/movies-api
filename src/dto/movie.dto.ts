@@ -19,3 +19,8 @@ type MovieId = { id: number };
 export type MovieInput = z.infer<typeof MovieValidator>;
 
 export type Movie = MovieInput & MovieId;
+
+export type DbMovie = Omit<Movie, "runtime" | "year"> & {
+    runtime: string;
+    year: string;
+};
