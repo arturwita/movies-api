@@ -33,7 +33,7 @@ export class MovieController {
 
         return {
             duration: duration ? Number.parseInt(duration, 10) : undefined,
-            genres: genres ? genres.split(",") : undefined,
+            genres,
         };
     }
 }
