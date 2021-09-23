@@ -1,5 +1,5 @@
 import { writeFileSync, readFileSync } from "fs";
-import { ContainerDependencies } from "../dependency-injection/container";
+import { AppDependencies } from "../dependency-injection/container";
 import { Movie } from "../dto/movie.dto";
 import { Genre } from "../dto/genre.dto";
 
@@ -11,7 +11,7 @@ interface FileDatabase {
 export class MovieRepository {
     readonly dbPath: string;
 
-    constructor({ config }: ContainerDependencies) {
+    constructor({ config }: AppDependencies) {
         this.dbPath = config.get("app.dbPath");
     }
 

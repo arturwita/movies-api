@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { ContainerDependencies } from "../dependency-injection/container";
+import { AppDependencies } from "../dependency-injection/container";
 
 export class MovieRouter {
     readonly router: Router;
 
-    constructor({ movieController }: ContainerDependencies) {
+    constructor({ movieController }: AppDependencies) {
         this.router = Router();
 
         this.router.get("/", movieController.getMovies.bind(movieController));

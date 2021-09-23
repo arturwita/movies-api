@@ -1,5 +1,5 @@
 import { ParsedQuery } from "../dto/query.dto";
-import { ContainerDependencies } from "../dependency-injection/container";
+import { AppDependencies } from "../dependency-injection/container";
 import { MovieRepository } from "../repository/movie.repository";
 import { Movie, MovieInput, MovieValidator } from "../dto/movie.dto";
 import { Exception } from "../error/exception";
@@ -11,7 +11,7 @@ export class MovieService {
     movieRepository: MovieRepository;
     logger: Logger;
 
-    constructor({ movieRepository, logger }: ContainerDependencies) {
+    constructor({ movieRepository, logger }: AppDependencies) {
         this.movieRepository = movieRepository;
         this.logger = logger;
     }

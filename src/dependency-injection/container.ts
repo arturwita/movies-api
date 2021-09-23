@@ -9,7 +9,7 @@ import { MovieRepository } from "../repository/movie.repository";
 import { LoggerMiddleware } from "../middleware/logger.middleware";
 import { ErrorHandlerMiddleware } from "../middleware/error-handler.middleware";
 
-export interface ContainerDependencies {
+export interface AppDependencies {
     app: Express;
     config: IConfig;
     logger: Logger;
@@ -42,7 +42,7 @@ export class Container {
         });
     }
 
-    cradle(): ContainerDependencies {
+    cradle(): AppDependencies {
         return this.container.cradle;
     }
 }

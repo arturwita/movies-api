@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { ContainerDependencies } from "../dependency-injection/container";
+import { AppDependencies } from "../dependency-injection/container";
 import { MovieService } from "../service/movie.service";
 import { ParsedQuery, QueryParams } from "../dto/query.dto";
 import { MovieInput } from "../dto/movie.dto";
@@ -9,7 +9,7 @@ type CustomRequest = Request<{}, {}, MovieInput, QueryParams>;
 export class MovieController {
     readonly movieService: MovieService;
 
-    constructor({ movieService }: ContainerDependencies) {
+    constructor({ movieService }: AppDependencies) {
         this.movieService = movieService;
     }
 

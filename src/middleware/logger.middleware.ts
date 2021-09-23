@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 import { Logger } from "../util/logger";
-import { ContainerDependencies } from "../dependency-injection/container";
+import { AppDependencies } from "../dependency-injection/container";
 
 export class LoggerMiddleware {
     private readonly logger: Logger;
 
-    constructor({ logger }: ContainerDependencies) {
+    constructor({ logger }: AppDependencies) {
         this.logger = logger;
     }
 

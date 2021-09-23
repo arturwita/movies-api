@@ -2,13 +2,13 @@ import { Request, Response, NextFunction } from "express";
 import { Exception } from "../error/exception";
 import { get } from "lodash";
 import { HTTP_ERROR_CODE } from "../error/error-codes";
-import { ContainerDependencies } from "../dependency-injection/container";
+import { AppDependencies } from "../dependency-injection/container";
 import { Logger } from "../util/logger";
 
 export class ErrorHandlerMiddleware {
     logger: Logger;
 
-    constructor({ logger }: ContainerDependencies) {
+    constructor({ logger }: AppDependencies) {
         this.logger = logger;
     }
 
