@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { Logger } from "../util/logger";
+import { Logger } from "../util";
 import { AppDependencies } from "../dependency-injection/container";
 
 export class LoggerMiddleware {

@@ -5,7 +5,7 @@ import { MovieRepository } from "../repository/movie.repository";
 import { Movie, MovieInput, MovieValidator } from "../dto/movie.dto";
 import { Exception } from "../error/exception";
 import { HTTP_ERROR_CODE, MOVIE_ERROR_CODE } from "../error/error-codes";
-import { Logger } from "../util/logger";
+import { Logger } from "../util";
 
 export class MovieService {
     movieRepository: MovieRepository;
@@ -16,8 +16,22 @@ export class MovieService {
         this.logger = logger;
     }
 
-    getMovies(_query: ParsedQuery): Movie[] {
-        return this.movieRepository.getMovies();
+    getMovies(query: ParsedQuery): Movie[] {
+        const { duration, genres } = query;
+
+        switch (true) {
+            case !duration && !genres: {
+                const randomMovie = this.movieRepository.getRandomMovie();
+                return [randomMovie];
+            }
+            case !!duration: {
+                const randomMovie = this.movieRepository.getRandomMovie(duration);
+                return [randomMovie];
+            }
+            default: {
+                return this.movieRepository.getMovies();
+            }
+        }
     }
 
     addMovie(movieInputDto: MovieInput): Movie {
@@ -61,8 +75,6 @@ export class MovieService {
                 );
             }
         });
-
-        this.logger.debug("Successfully validated input movie");
     }
 
     prepareMoviePayload(movieInputDto: MovieInput): Movie {

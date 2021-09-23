@@ -32,8 +32,8 @@ export class MovieController {
         const { duration, genres } = query;
 
         return {
-            duration: duration ? Number.parseInt(duration, 10) : null,
-            genres: genres ? genres.split(",") : null,
+            duration: duration ? Number.parseInt(duration, 10) : undefined,
+            genres: genres ? genres.split(",") : undefined,
         };
     }
 }

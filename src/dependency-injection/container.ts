@@ -1,7 +1,7 @@
 import { asClass, asValue, createContainer, InjectionMode, AwilixContainer } from "awilix";
 import config, { IConfig } from "config";
 import { Express } from "express";
-import { Logger } from "../util/logger";
+import { Logger } from "../util";
 import { MovieRouter } from "../router/movie-router";
 import { MovieController } from "../controller/movie.controller";
 import { MovieService } from "../service/movie.service";
