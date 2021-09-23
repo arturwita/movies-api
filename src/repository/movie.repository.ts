@@ -3,6 +3,7 @@ import { AppDependencies } from "../dependency-injection/container";
 import { DbMovie, Movie } from "../dto/movie.dto";
 import { Genre } from "../dto/genre.dto";
 import { dbMovieToMovieConverter, movieToDbMovieConverter } from "../converter/movie.converter";
+import { checkMoviesEquality } from "../util/utils";
 
 interface FileDatabase {
     genres: Genre[];
@@ -29,6 +30,13 @@ export class MovieRepository {
     getMovies(): Movie[] {
         const { movies } = this.readDbFile();
         return movies.map(movie => dbMovieToMovieConverter(movie));
+    }
+
+    findMovieByData(movie: Movie): Movie | null {
+        const movies = this.getMovies();
+        const foundMovie = movies.find(savedMovie => checkMoviesEquality(movie, savedMovie));
+
+        return foundMovie ? foundMovie : null;
     }
 
     saveMovie(movie: Movie): Movie {

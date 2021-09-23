@@ -1,5 +1,4 @@
 import { ZodError } from "zod";
-import { isEqual } from "lodash";
 import { ParsedQuery } from "../dto/query.dto";
 import { AppDependencies } from "../dependency-injection/container";
 import { MovieRepository } from "../repository/movie.repository";
@@ -25,10 +24,9 @@ export class MovieService {
         this.validate(movieInputDto);
         const newMovie = this.prepareMoviePayload(movieInputDto);
 
-        const savedMovies = this.movieRepository.getMovies();
-        const wasSaved = savedMovies.find(savedMovie => this.checkMoviesEquality(newMovie, savedMovie));
+        const movieExists = this.movieRepository.findMovieByData(newMovie);
 
-        if (wasSaved) {
+        if (movieExists) {
             this.logger.error("Given movie already exists", newMovie);
             throw new Exception(400, "Given movie already exists", MOVIE_ERROR_CODE.MOVIE_ALREADY_EXISTS);
         }
@@ -75,24 +73,5 @@ export class MovieService {
             id,
             ...movieInputDto,
         };
-    }
-
-    private checkMoviesEquality(firstMovie: Movie, secondMovie: Movie): boolean {
-        return isEqual(
-            {
-                title: firstMovie.title,
-                year: firstMovie.year,
-                runtime: firstMovie.runtime,
-                director: firstMovie.director,
-                genres: firstMovie.genres.sort(),
-            },
-            {
-                title: secondMovie.title,
-                year: secondMovie.year,
-                runtime: secondMovie.runtime,
-                director: secondMovie.director,
-                genres: secondMovie.genres.sort(),
-            }
-        );
     }
 }
