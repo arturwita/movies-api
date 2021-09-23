@@ -1,10 +1,11 @@
+import { ZodError } from "zod";
+import { isEqual } from "lodash";
 import { ParsedQuery } from "../dto/query.dto";
 import { AppDependencies } from "../dependency-injection/container";
 import { MovieRepository } from "../repository/movie.repository";
 import { Movie, MovieInput, MovieValidator } from "../dto/movie.dto";
 import { Exception } from "../error/exception";
 import { HTTP_ERROR_CODE, MOVIE_ERROR_CODE } from "../error/error-codes";
-import { ZodError } from "zod";
 import { Logger } from "../util/logger";
 
 export class MovieService {
@@ -22,9 +23,17 @@ export class MovieService {
 
     addMovie(movieInputDto: MovieInput): Movie {
         this.validate(movieInputDto);
-        const movie = this.prepareMoviePayload(movieInputDto);
+        const newMovie = this.prepareMoviePayload(movieInputDto);
 
-        return this.movieRepository.saveMovie(movie);
+        const savedMovies = this.movieRepository.getMovies();
+        const wasSaved = savedMovies.find(savedMovie => this.checkMoviesEquality(newMovie, savedMovie));
+
+        if (wasSaved) {
+            this.logger.error("Given movie already exists", newMovie);
+            throw new Exception(400, "Given movie already exists", MOVIE_ERROR_CODE.MOVIE_ALREADY_EXISTS);
+        }
+
+        return this.movieRepository.saveMovie(newMovie);
     }
 
     validate(movieInputDto: MovieInput): void {
@@ -66,5 +75,24 @@ export class MovieService {
             id,
             ...movieInputDto,
         };
+    }
+
+    private checkMoviesEquality(firstMovie: Movie, secondMovie: Movie): boolean {
+        return isEqual(
+            {
+                title: firstMovie.title,
+                year: firstMovie.year,
+                runtime: firstMovie.runtime,
+                director: firstMovie.director,
+                genres: firstMovie.genres.sort(),
+            },
+            {
+                title: secondMovie.title,
+                year: secondMovie.year,
+                runtime: secondMovie.runtime,
+                director: secondMovie.director,
+                genres: secondMovie.genres.sort(),
+            }
+        );
     }
 }
