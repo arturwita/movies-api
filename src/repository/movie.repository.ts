@@ -3,7 +3,7 @@ import { random, orderBy } from "lodash";
 import { AppDependencies } from "../dependency-injection";
 import { DbMovie, Genre, Movie } from "../dto";
 import { dbMovieToMovieConverter, movieToDbMovieConverter } from "../converter";
-import { checkMoviesEquality, isNumberInRange, Logger } from "../util";
+import { getArrayCombinations, compareArrays, checkMoviesEquality, isNumberInRange, Logger } from "../util";
 import { Exception, HTTP_ERROR_CODE } from "../error";
 
 interface FileDatabase {
@@ -70,12 +70,15 @@ export class MovieRepository {
 
     getMoviesMatchingGenres(genres: Genre[]): Movie[] {
         const savedMovies = this.getMovies();
+        const genreCombinations = getArrayCombinations<Genre>(genres);
 
-        const matchingMovies = savedMovies.filter(savedMovie =>
-            genres.some(genre => savedMovie.genres.includes(genre))
-        );
+        const matchingMovies = genreCombinations
+            .map(genreCombination =>
+                savedMovies.filter(savedMovie => compareArrays(savedMovie.genres, genreCombination))
+            )
+            .flat();
 
-        return orderBy(matchingMovies, "genres", "desc");
+        return orderBy(matchingMovies, "genres.length", "desc");
     }
 
     saveMovie(movie: Movie): Movie {
