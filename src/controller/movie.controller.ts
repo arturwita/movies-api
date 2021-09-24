@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { AppDependencies } from "../dependency-injection";
 import { MovieService } from "../service";
-import { MovieInput, QueryParams } from "../dto";
+import { MovieInput, ParsedQuery, QueryParams } from "../dto";
 import { MovieValidator, QueryValidator } from "../validator";
 
 type CustomRequest = Request<{}, {}, MovieInput, QueryParams>;
@@ -17,8 +17,19 @@ export class MovieController {
         this.queryValidator = queryValidator;
     }
 
+    parseQuery(query: QueryParams): ParsedQuery {
+        const { duration, genres } = query;
+
+        return {
+            duration: duration ? Number.parseInt(duration, 10) : undefined,
+            genres: genres ? JSON.parse(genres) : undefined,
+        };
+    }
+
     getMovies(req: CustomRequest, res: Response, _next: NextFunction): void {
-        const query = this.queryValidator.validate(req.query);
+        const parsedQuery = this.parseQuery(req.query);
+        const query = this.queryValidator.validate(parsedQuery);
+
         const movies = this.movieService.getMovies(query);
 
         res.status(200).send({ movies });

@@ -1,5 +1,5 @@
 import { AppDependencies } from "../dependency-injection";
-import { ParsedQuery, QueryParams } from "../dto";
+import { ParsedQuery } from "../dto";
 import { Exception, HTTP_ERROR_CODE } from "../error";
 import { MovieRepository } from "../repository";
 import { Logger } from "../util";
@@ -13,17 +13,8 @@ export class QueryValidator {
         this.movieRepository = movieRepository;
     }
 
-    private parseQuery(query: QueryParams): ParsedQuery {
+    validate(query: ParsedQuery): ParsedQuery {
         const { duration, genres } = query;
-
-        return {
-            duration: duration ? Number.parseInt(duration, 10) : undefined,
-            genres: genres ? JSON.parse(genres) : undefined,
-        };
-    }
-
-    validate(query: QueryParams): ParsedQuery {
-        const { duration, genres } = this.parseQuery(query);
 
         if (!!duration && isNaN(duration)) {
             this.logger.error("Could not parse duration to number", query.duration);
