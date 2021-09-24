@@ -1,5 +1,6 @@
 {
     app: {
-        port: "PORT"
+        port: "PORT",
+        dbPath: "DB_PATH"
     },
 }
