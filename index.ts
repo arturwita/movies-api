@@ -2,8 +2,8 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import express from "express";
-import { Container } from "./src/dependency-injection/container";
-import { moviesUrl } from "./src/router/url";
+import { Container } from "./src/dependency-injection";
+import { moviesUrl } from "./src/router";
 
 const { app, config, logger, movieRouter, loggerMiddleware, errorHandler } = new Container(express()).cradle();
 

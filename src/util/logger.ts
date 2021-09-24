@@ -1,5 +1,5 @@
 import { createLogger, transports, format, Logger as WinstonLogger } from "winston";
-import { AppDependencies } from "../dependency-injection/container";
+import { AppDependencies } from "../dependency-injection";
 
 enum LOG_LEVEL {
     INFO = "info",

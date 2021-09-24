@@ -1,4 +1,4 @@
-import { Movie, DbMovie } from "../dto/movie.dto";
+import { Movie, DbMovie } from "../dto";
 
 export const movieToDbMovieConverter = (movie: Movie): DbMovie => ({
     ...movie,

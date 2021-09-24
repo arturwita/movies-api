@@ -1,5 +1,5 @@
-import { Movie } from "../dto/movie.dto";
 import { isEqual } from "lodash";
+import { Movie } from "../dto";
 
 export const checkMoviesEquality = (firstMovie: Movie, secondMovie: Movie): boolean =>
     isEqual(

@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { get } from "lodash";
-import { Exception } from "../error/exception";
-import { HTTP_ERROR_CODE } from "../error/error-codes";
-import { AppDependencies } from "../dependency-injection/container";
+import { HTTP_ERROR_CODE, Exception } from "../error";
+import { AppDependencies } from "../dependency-injection";
 import { Logger } from "../util";
 
 export class ErrorHandlerMiddleware {

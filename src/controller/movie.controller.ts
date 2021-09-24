@@ -1,39 +1,35 @@
 import { Request, Response, NextFunction } from "express";
-import { AppDependencies } from "../dependency-injection/container";
-import { MovieService } from "../service/movie.service";
-import { ParsedQuery, QueryParams } from "../dto/query.dto";
-import { MovieInput } from "../dto/movie.dto";
+import { AppDependencies } from "../dependency-injection";
+import { MovieService } from "../service";
+import { MovieInput, QueryParams } from "../dto";
+import { MovieValidator, QueryValidator } from "../validator";
 
 type CustomRequest = Request<{}, {}, MovieInput, QueryParams>;
 
 export class MovieController {
     readonly movieService: MovieService;
+    readonly movieValidator: MovieValidator;
+    readonly queryValidator: QueryValidator;
 
-    constructor({ movieService }: AppDependencies) {
+    constructor({ movieService, movieValidator, queryValidator }: AppDependencies) {
         this.movieService = movieService;
+        this.movieValidator = movieValidator;
+        this.queryValidator = queryValidator;
     }
 
     getMovies(req: CustomRequest, res: Response, _next: NextFunction): void {
-        const query = this.parseQuery(req.query);
-
+        const query = this.queryValidator.validate(req.query);
         const movies = this.movieService.getMovies(query);
 
-        res.send({ movies });
+        res.status(200).send({ movies });
     }
 
     addMovie(req: CustomRequest, res: Response, _next: NextFunction): void {
         const movieInput = req.body;
+        this.movieValidator.validate(req.body);
+
         const movie = this.movieService.addMovie(movieInput);
 
         res.status(201).send({ movie });
-    }
-
-    private parseQuery(query: QueryParams): ParsedQuery {
-        const { duration, genres } = query;
-
-        return {
-            duration: duration ? Number.parseInt(duration, 10) : undefined,
-            genres,
-        };
     }
 }

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
+import { AppDependencies } from "../dependency-injection";
 import { Logger } from "../util";
-import { AppDependencies } from "../dependency-injection/container";
 
 export class LoggerMiddleware {
     private readonly logger: Logger;

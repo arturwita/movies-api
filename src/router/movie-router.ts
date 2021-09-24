@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { AppDependencies } from "../dependency-injection/container";
+import { AppDependencies } from "../dependency-injection";
 
 export class MovieRouter {
     readonly router: Router;

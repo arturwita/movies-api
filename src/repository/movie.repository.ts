@@ -1,12 +1,10 @@
 import { writeFileSync, readFileSync } from "fs";
-import { random } from "lodash";
-import { AppDependencies } from "../dependency-injection/container";
-import { DbMovie, Movie } from "../dto/movie.dto";
-import { Genre } from "../dto/genre.dto";
-import { dbMovieToMovieConverter, movieToDbMovieConverter } from "../converter/movie.converter";
+import { random, orderBy } from "lodash";
+import { AppDependencies } from "../dependency-injection";
+import { DbMovie, Genre, Movie } from "../dto";
+import { dbMovieToMovieConverter, movieToDbMovieConverter } from "../converter";
 import { checkMoviesEquality, isNumberInRange, Logger } from "../util";
-import { Exception } from "../error/exception";
-import { HTTP_ERROR_CODE } from "../error/error-codes";
+import { Exception, HTTP_ERROR_CODE } from "../error";
 
 interface FileDatabase {
     genres: Genre[];
@@ -68,6 +66,16 @@ export class MovieRepository {
         const randomIndex = getRandomNumber(0, limit);
 
         return moviesToSearchIn[randomIndex];
+    }
+
+    getMoviesMatchingGenres(genres: Genre[]): Movie[] {
+        const savedMovies = this.getMovies();
+
+        const matchingMovies = savedMovies.filter(savedMovie =>
+            genres.some(genre => savedMovie.genres.includes(genre))
+        );
+
+        return orderBy(matchingMovies, "genres", "desc");
     }
 
     saveMovie(movie: Movie): Movie {

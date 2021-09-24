@@ -2,12 +2,12 @@ import { asClass, asValue, createContainer, InjectionMode, AwilixContainer } fro
 import config, { IConfig } from "config";
 import { Express } from "express";
 import { Logger } from "../util";
-import { MovieRouter } from "../router/movie-router";
-import { MovieController } from "../controller/movie.controller";
-import { MovieService } from "../service/movie.service";
-import { MovieRepository } from "../repository/movie.repository";
-import { LoggerMiddleware } from "../middleware/logger.middleware";
-import { ErrorHandlerMiddleware } from "../middleware/error-handler.middleware";
+import { MovieRouter } from "../router";
+import { MovieController } from "../controller";
+import { MovieService } from "../service";
+import { MovieRepository } from "../repository";
+import { LoggerMiddleware, ErrorHandlerMiddleware } from "../middleware";
+import { MovieValidator, QueryValidator } from "../validator";
 
 export interface AppDependencies {
     app: Express;
@@ -15,6 +15,8 @@ export interface AppDependencies {
     logger: Logger;
     loggerMiddleware: LoggerMiddleware;
     errorHandler: ErrorHandlerMiddleware;
+    movieValidator: MovieValidator;
+    queryValidator: QueryValidator;
     movieRouter: MovieRouter;
     movieController: MovieController;
     movieService: MovieService;
@@ -35,6 +37,8 @@ export class Container {
             logger: asClass(Logger),
             loggerMiddleware: asClass(LoggerMiddleware),
             errorHandler: asClass(ErrorHandlerMiddleware),
+            movieValidator: asClass(MovieValidator),
+            queryValidator: asClass(QueryValidator),
             movieRouter: asClass(MovieRouter),
             movieController: asClass(MovieController),
             movieService: asClass(MovieService),
