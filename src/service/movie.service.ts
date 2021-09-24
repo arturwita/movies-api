@@ -24,10 +24,20 @@ export class MovieService {
             }
             case !duration && !genres: {
                 const randomMovie = this.movieRepository.getRandomMovie();
+                if (!randomMovie) {
+                    this.logger.error("No movies found");
+                    throw new Exception(422, "No movies found", HTTP_ERROR_CODE.UNPROCESSABLE_ENTITY);
+                }
+
                 return [randomMovie];
             }
             case !!duration: {
                 const randomMovie = this.movieRepository.getRandomMovie(duration);
+                if (!randomMovie) {
+                    this.logger.error("No movies found");
+                    throw new Exception(422, "No movies found", HTTP_ERROR_CODE.UNPROCESSABLE_ENTITY);
+                }
+
                 return [randomMovie];
             }
             case !!genres: {

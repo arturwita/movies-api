@@ -3,8 +3,7 @@ import { random, orderBy } from "lodash";
 import { AppDependencies } from "../dependency-injection";
 import { DbMovie, Genre, Movie } from "../dto";
 import { dbMovieToMovieConverter, movieToDbMovieConverter } from "../converter";
-import { getArrayCombinations, compareArrays, checkMoviesEquality, isNumberInRange, Logger } from "../util";
-import { Exception, HTTP_ERROR_CODE } from "../error";
+import { getArrayCombinations, compareArrays, checkMoviesEquality, isNumberInRange } from "../util";
 
 interface FileDatabase {
     genres: Genre[];
@@ -13,13 +12,11 @@ interface FileDatabase {
 
 export class MovieRepository {
     readonly dbPath: string;
-    readonly logger: Logger;
     readonly durationOffset: number;
 
-    constructor({ config, logger }: AppDependencies) {
+    constructor({ config }: AppDependencies) {
         this.dbPath = config.get("app.dbPath");
         this.durationOffset = config.get("app.durationOffset");
-        this.logger = logger;
     }
 
     private readDbFile(): FileDatabase {
@@ -53,13 +50,12 @@ export class MovieRepository {
         });
     }
 
-    getRandomMovie(duration?: number, getRandomNumber = random): Movie {
+    getRandomMovie(duration?: number, getRandomNumber = random): Movie | null {
         const savedMovies = this.getMovies();
         const moviesToSearchIn = duration ? this.getMoviesInRuntimeRange(savedMovies, duration) : savedMovies;
 
         if (moviesToSearchIn.length === 0) {
-            this.logger.error("No movies found");
-            throw new Exception(422, "No movies found", HTTP_ERROR_CODE.UNPROCESSABLE_ENTITY);
+            return null;
         }
 
         const limit = moviesToSearchIn.length - 1;
