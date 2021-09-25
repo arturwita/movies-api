@@ -1,19 +1,17 @@
 import { AppDependencies } from "../dependency-injection";
-import { ParsedQuery } from "../dto";
+import { genres as _predefinedGenres } from "../../data/db.json";
+import { Genre, ParsedQuery } from "../dto";
 import { Exception, HTTP_ERROR_CODE } from "../error";
-import { MovieRepository } from "../repository";
 import { Logger } from "../util";
 
 export class QueryValidator {
     logger: Logger;
-    movieRepository: MovieRepository;
 
-    constructor({ logger, movieRepository }: AppDependencies) {
+    constructor({ logger }: AppDependencies) {
         this.logger = logger;
-        this.movieRepository = movieRepository;
     }
 
-    validate(query: ParsedQuery): ParsedQuery {
+    validate(query: ParsedQuery, predefinedGenres: Genre[] = _predefinedGenres): ParsedQuery {
         const { duration, genres } = query;
 
         if (!!duration && isNaN(duration)) {
@@ -27,7 +25,6 @@ export class QueryValidator {
         }
 
         if (genres) {
-            const predefinedGenres = this.movieRepository.getGenres();
             const areGenresValid = genres.every(inputGenre => predefinedGenres.includes(inputGenre));
 
             if (!areGenresValid) {

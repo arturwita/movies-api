@@ -1,20 +1,18 @@
 import { ZodError } from "zod";
-import { MovieInput, MovieSchema } from "../dto";
+import { genres } from "../../data/db.json";
+import { Genre, MovieInput, MovieSchema } from "../dto";
 import { AppDependencies } from "../dependency-injection";
 import { Exception, HTTP_ERROR_CODE, MOVIE_ERROR_CODE } from "../error";
-import { MovieRepository } from "../repository";
 import { Logger } from "../util";
 
 export class MovieValidator {
     logger: Logger;
-    movieRepository: MovieRepository;
 
-    constructor({ logger, movieRepository }: AppDependencies) {
+    constructor({ logger }: AppDependencies) {
         this.logger = logger;
-        this.movieRepository = movieRepository;
     }
 
-    validate(movieInputDto: MovieInput): void {
+    validate(movieInputDto: MovieInput, predefinedGenres: Genre[] = genres): void {
         try {
             MovieSchema.parse(movieInputDto);
         } catch (error) {
@@ -23,8 +21,6 @@ export class MovieValidator {
                 validation: (error as ZodError).issues,
             });
         }
-
-        const predefinedGenres = this.movieRepository.getGenres();
 
         movieInputDto.genres.forEach(inputGenre => {
             if (!predefinedGenres.includes(inputGenre)) {
