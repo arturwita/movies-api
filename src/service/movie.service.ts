@@ -22,15 +22,6 @@ export class MovieService {
                 const moviesMatchingGenres = this.movieRepository.getMoviesMatchingGenres(genres!);
                 return this.movieRepository.getMoviesInRuntimeRange(moviesMatchingGenres, duration!);
             }
-            case !duration && !genres: {
-                const randomMovie = this.movieRepository.getRandomMovie();
-                if (!randomMovie) {
-                    this.logger.error("No movies found");
-                    throw new Exception(422, "No movies found", HTTP_ERROR_CODE.UNPROCESSABLE_ENTITY);
-                }
-
-                return [randomMovie];
-            }
             case !!duration: {
                 const randomMovie = this.movieRepository.getRandomMovie(duration);
                 if (!randomMovie) {
@@ -44,8 +35,13 @@ export class MovieService {
                 return this.movieRepository.getMoviesMatchingGenres(genres!);
             }
             default: {
-                this.logger.error("Unhandled execution path", query);
-                throw new Exception(501, "Not implemented", HTTP_ERROR_CODE.NOT_IMPLEMENTED);
+                const randomMovie = this.movieRepository.getRandomMovie();
+                if (!randomMovie) {
+                    this.logger.error("No movies found");
+                    throw new Exception(422, "No movies found", HTTP_ERROR_CODE.UNPROCESSABLE_ENTITY);
+                }
+
+                return [randomMovie];
             }
         }
     }
