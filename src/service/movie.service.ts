@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { random } from "lodash";
 import { AppDependencies } from "../dependency-injection";
 import { Movie, MovieInput, ParsedQuery } from "../dto";
 import { MovieRepository } from "../repository";
@@ -23,7 +24,7 @@ export class MovieService {
                 return this.movieRepository.getMoviesInRuntimeRange(moviesMatchingGenres, duration!);
             }
             case !!duration: {
-                const randomMovie = this.movieRepository.getRandomMovie(duration);
+                const randomMovie = this.movieRepository.getRandomMovie(random, duration);
                 if (!randomMovie) {
                     this.logger.error("No movies found");
                     throw new Exception(422, "No movies found", HTTP_ERROR_CODE.UNPROCESSABLE_ENTITY);

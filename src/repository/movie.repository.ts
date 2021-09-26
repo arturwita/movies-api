@@ -15,18 +15,14 @@ export class MovieRepository {
     readonly durationOffset: number;
 
     constructor({ config }: AppDependencies) {
-        this.dbPath = config.get("app.dbPath");
-        this.durationOffset = config.get("app.durationOffset");
+        const { dbPath, durationOffset } = config.get("app");
+        this.dbPath = dbPath;
+        this.durationOffset = durationOffset;
     }
 
     private readDbFile(): FileDatabase {
         const buffer = readFileSync(this.dbPath);
         return JSON.parse(buffer.toString());
-    }
-
-    getGenres(): Genre[] {
-        const { genres } = this.readDbFile();
-        return genres;
     }
 
     getMovies(): Movie[] {
@@ -50,7 +46,7 @@ export class MovieRepository {
         });
     }
 
-    getRandomMovie(duration?: number, getRandomNumber = random): Movie | null {
+    getRandomMovie(getRandomNumber = random, duration?: number): Movie | null {
         const savedMovies = this.getMovies();
         const moviesToSearchIn = duration ? this.getMoviesInRuntimeRange(savedMovies, duration) : savedMovies;
 
