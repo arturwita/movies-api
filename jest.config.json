@@ -1,0 +1,14 @@
+{
+    "collectCoverage": true,
+    "forceExit": true,
+    "verbose": true,
+    "roots": ["<rootDir>/"],
+    "transform": {
+        "^.+\\.(ts)$": "ts-jest"
+    },
+    "collectCoverageFrom": ["<rootDir>/src/**/*.ts", "!<rootDir>/src/**/index.ts", "!<rootDir>/src/dto/*.dto.ts"],
+    "setupFiles": ["dotenv/config"],
+    "modulePathIgnorePatterns": ["<rootDir>/dist/"],
+    "testEnvironment": "node",
+    "testRunner": "jasmine2"
+}

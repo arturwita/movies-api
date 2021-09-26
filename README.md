@@ -42,3 +42,8 @@ In any of those cases we don't want to have duplicates.
 - **The code should be unit tested**
 - **Remember about proper error handling**
 - **We require code in git repository**
+
+### Custom Assumptions
+
+- genres passed in the query params are expected to be passed in the following format: `["genre1", "genre2"]`
+- movies are considered to be equal if they contain the same information about the title, year, runtime, director and genres
