@@ -47,8 +47,8 @@ export class MovieService {
         }
     }
 
-    addMovie(movieInputDto: MovieInput): Movie {
-        const newMovie = this.prepareMoviePayload(movieInputDto);
+    addMovie(movieInput: MovieInput): Movie {
+        const newMovie = this.prepareMoviePayload(movieInput);
 
         const movieExists = this.movieRepository.findMovieByData(newMovie);
 
@@ -60,13 +60,13 @@ export class MovieService {
         return this.movieRepository.saveMovie(newMovie);
     }
 
-    prepareMoviePayload(movieInputDto: MovieInput): Movie {
+    prepareMoviePayload(movieInput: MovieInput): Movie {
         const allMovies = this.movieRepository.getMovies();
         const id = allMovies.length + 1;
 
         return {
             id,
-            ...movieInputDto,
+            ...movieInput,
         };
     }
 }
