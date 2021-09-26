@@ -72,12 +72,12 @@ describe("Movie Controller", () => {
             expect(parsedQuery).toEqual(expectedResult);
         });
 
-        it("Should return undefined for params which were not provided", () => {
+        it("Should return null for params which were not provided", () => {
             // given
             const query: QueryParams = {};
             const expectedResult: ParsedQuery = {
-                duration: undefined,
-                genres: undefined,
+                duration: null,
+                genres: null,
             };
 
             // when

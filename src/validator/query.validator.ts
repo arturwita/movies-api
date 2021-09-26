@@ -14,12 +14,12 @@ export class QueryValidator {
     validate(query: ParsedQuery, predefinedGenres: Genre[] = _predefinedGenres): ParsedQuery {
         const { duration, genres } = query;
 
-        if (duration !== undefined && isNaN(duration)) {
+        if (duration !== null && isNaN(duration)) {
             this.logger.error("Could not parse duration to number", query.duration);
             throw new Exception(400, "Could not parse duration to number", HTTP_ERROR_CODE.BAD_REQUEST, query.duration);
         }
 
-        if (genres !== undefined && !Array.isArray(genres)) {
+        if (genres && !Array.isArray(genres)) {
             this.logger.error("Genres should be an array", query.genres);
             throw new Exception(400, "Genres should be an array", HTTP_ERROR_CODE.BAD_REQUEST, query.genres);
         }

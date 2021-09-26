@@ -40,6 +40,7 @@ describe("Query Validator", () => {
         // given
         const query = {
             duration: NaN,
+            genres: null,
         };
         const expectedError: ExceptionProps = {
             message: "Could not parse duration to number",
@@ -65,6 +66,7 @@ describe("Query Validator", () => {
         const query: ParsedQuery = {
             // @ts-ignore
             genres: "not an array",
+            duration: null,
         };
         const expectedError: ExceptionProps = {
             message: "Genres should be an array",
@@ -93,6 +95,7 @@ describe("Query Validator", () => {
             errorCode: "BAD_REQUEST",
         };
         const query: ParsedQuery = {
+            duration: null,
             genres: ["values", "not", "described", "in", "predefined", "genres"],
         };
 

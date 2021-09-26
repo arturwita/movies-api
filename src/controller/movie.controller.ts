@@ -21,8 +21,8 @@ export class MovieController {
         const { duration, genres } = query;
 
         return {
-            duration: duration ? Number.parseInt(duration, 10) : undefined,
-            genres: genres ? JSON.parse(genres) : undefined,
+            duration: duration ? Number.parseInt(duration, 10) : null,
+            genres: genres ? JSON.parse(genres) : null,
         };
     }
 
