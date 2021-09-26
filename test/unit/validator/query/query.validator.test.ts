@@ -54,7 +54,7 @@ describe("Query Validator", () => {
             // then
             expect(validateMock).toHaveBeenCalledTimes(1);
             expect(validateMock).toHaveBeenCalledWith(query, predefinedGenres);
-            assertCustomError(expectedError, error as Exception, logger.error);
+            assertCustomError(expectedError, error as Exception);
             return;
         }
         fail("Test should not reach here");
@@ -79,7 +79,7 @@ describe("Query Validator", () => {
             // then
             expect(validateMock).toHaveBeenCalledTimes(1);
             expect(validateMock).toHaveBeenCalledWith(query, predefinedGenres);
-            assertCustomError(expectedError, error as Exception, logger.error);
+            assertCustomError(expectedError, error as Exception);
             return;
         }
         fail("Test should not reach here");
@@ -103,7 +103,7 @@ describe("Query Validator", () => {
             // then
             expect(validateMock).toHaveBeenCalledTimes(1);
             expect(validateMock).toHaveBeenCalledWith(query, predefinedGenres);
-            assertCustomError(expectedError, error as Exception, logger.error);
+            assertCustomError(expectedError, error as Exception);
             return;
         }
         fail("Test should not reach here");

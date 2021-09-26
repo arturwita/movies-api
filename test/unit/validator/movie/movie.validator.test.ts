@@ -58,7 +58,7 @@ describe("Movie Validator", () => {
                 // then
                 expect(validateMock).toHaveBeenCalledTimes(1);
                 expect(validateMock).toHaveBeenCalledWith(movieInput, predefinedGenres);
-                assertCustomError(expectedError, error as Exception, logger.error);
+                assertCustomError(expectedError, error as Exception);
                 return;
             }
             fail("Test should not reach here");
@@ -84,7 +84,7 @@ describe("Movie Validator", () => {
             // then
             expect(validateMock).toHaveBeenCalledTimes(1);
             expect(validateMock).toHaveBeenCalledWith(movieInput, predefinedGenres);
-            assertCustomError(expectedError, error as Exception, logger.error);
+            assertCustomError(expectedError, error as Exception);
             return;
         }
         fail("Test should not reach here");
