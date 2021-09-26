@@ -10,7 +10,7 @@ describe("Movie Repository", () => {
     const config = {
         get: jest.fn(() => ({
             durationOffset: 10,
-            dbPath: getDbPath("movie-repository-test-file.json"),
+            dbPath: getDbPath("repository/movie-repository-test-file.json"),
         })),
     };
 
@@ -119,7 +119,7 @@ describe("Movie Repository", () => {
             const config = {
                 get: jest.fn(() => ({
                     durationOffset: 10,
-                    dbPath: getDbPath("empty-movies-test-file.json"),
+                    dbPath: getDbPath("repository/empty-movies-test-file.json"),
                 })),
             };
             // @ts-ignore
@@ -149,7 +149,7 @@ describe("Movie Repository", () => {
 
     describe("Save Movie", () => {
         // given
-        const dbPath = getDbPath("save-movie-test-file.json");
+        const dbPath = getDbPath("repository/save-movie-test-file.json");
         const config = {
             get: jest.fn(() => ({
                 durationOffset: 10,
