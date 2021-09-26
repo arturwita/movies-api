@@ -97,7 +97,7 @@ describe("Movie Repository", () => {
             const randomMovie = movieRepository.getRandomMovie(getRandomNumber);
 
             // then
-            expect(randomMovie).toEqual(expect.objectContaining(expectedMovie));
+            expect(randomMovie).toEqual(expectedMovie);
         });
 
         it("Should return random movie from movies in duration range", () => {
@@ -111,7 +111,7 @@ describe("Movie Repository", () => {
             const randomMovie = movieRepository.getRandomMovie(getRandomNumber, duration);
 
             // then
-            expect(randomMovie).toEqual(expect.objectContaining(expectedMovie));
+            expect(randomMovie).toEqual(expectedMovie);
         });
 
         it("Should return null if there are no movies in db", () => {
@@ -179,7 +179,7 @@ describe("Movie Repository", () => {
             const savedMovie = movieRepository.saveMovie(newMovie);
 
             // then
-            expect(savedMovie).toEqual(expect.objectContaining(newMovie));
+            expect(savedMovie).toEqual(newMovie);
         });
     });
 });
