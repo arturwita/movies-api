@@ -4,7 +4,7 @@ import { MovieService } from "../service";
 import { MovieInput, ParsedQuery, QueryParams } from "../dto";
 import { MovieValidator, QueryValidator } from "../validator";
 
-type CustomRequest = Request<{}, {}, MovieInput, QueryParams>;
+export type CustomRequest = Request<{}, {}, MovieInput, QueryParams>;
 
 export class MovieController {
     readonly movieService: MovieService;
@@ -26,21 +26,21 @@ export class MovieController {
         };
     }
 
-    getMovies(req: CustomRequest, res: Response, _next: NextFunction): void {
-        const parsedQuery = this.parseQuery(req.query);
+    getMovies(request: CustomRequest, response: Response, _next: NextFunction): void {
+        const parsedQuery = this.parseQuery(request.query);
         const query = this.queryValidator.validate(parsedQuery);
 
         const movies = this.movieService.getMovies(query);
 
-        res.status(200).send({ movies });
+        response.status(200).send({ movies });
     }
 
-    addMovie(req: CustomRequest, res: Response, _next: NextFunction): void {
-        const movieInput = req.body;
-        this.movieValidator.validate(req.body);
+    addMovie(request: CustomRequest, response: Response, _next: NextFunction): void {
+        const movieInput = request.body;
+        this.movieValidator.validate(movieInput);
 
         const movie = this.movieService.addMovie(movieInput);
 
-        res.status(201).send({ movie });
+        response.status(201).send({ movie });
     }
 }
