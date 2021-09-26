@@ -12,17 +12,17 @@ export class MovieValidator {
         this.logger = logger;
     }
 
-    validate(movieInputDto: MovieInput, predefinedGenres: Genre[] = genres): void {
+    validate(movieInput: MovieInput, predefinedGenres: Genre[] = genres): void {
         try {
-            MovieSchema.parse(movieInputDto);
+            MovieSchema.parse(movieInput);
         } catch (error) {
-            this.logger.error("Input movie DTO does not match given schema", movieInputDto);
+            this.logger.error("Input movie DTO does not match given schema", movieInput);
             throw new Exception(400, "Invalid movie schema", HTTP_ERROR_CODE.BAD_REQUEST, {
                 validation: (error as ZodError).issues,
             });
         }
 
-        movieInputDto.genres.forEach(inputGenre => {
+        movieInput.genres.forEach(inputGenre => {
             if (!predefinedGenres.includes(inputGenre)) {
                 const details = {
                     invalidGenre: inputGenre,

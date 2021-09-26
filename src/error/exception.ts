@@ -1,4 +1,10 @@
-export class Exception extends Error {
+export interface ExceptionProps {
+    message: string;
+    status: number;
+    errorCode: string;
+}
+
+export class Exception extends Error implements ExceptionProps {
     status: number;
     message: string;
     errorCode: string;
