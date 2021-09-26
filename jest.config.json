@@ -1,14 +1,20 @@
 {
-    "collectCoverage": true,
-    "forceExit": true,
     "verbose": true,
+    "collectCoverage": true,
+    "testRunner": "jasmine2",
+    "testEnvironment": "node",
+    "setupFiles": ["dotenv/config"],
     "roots": ["<rootDir>/"],
+    "collectCoverageFrom": [
+        "<rootDir>/src/**/*.ts",
+        "!<rootDir>/src/**/index.ts",
+        "!<rootDir>/src/dto/*.dto.ts",
+        "!<rootDir>/src/dependency-injection/container.ts",
+        "!<rootDir>/src/router/*.router.ts",
+        "!<rootDir>/src/util/logger.ts"
+    ],
+    "modulePathIgnorePatterns": ["<rootDir>/dist/"],
     "transform": {
         "^.+\\.(ts)$": "ts-jest"
-    },
-    "collectCoverageFrom": ["<rootDir>/src/**/*.ts", "!<rootDir>/src/**/index.ts", "!<rootDir>/src/dto/*.dto.ts"],
-    "setupFiles": ["dotenv/config"],
-    "modulePathIgnorePatterns": ["<rootDir>/dist/"],
-    "testEnvironment": "node",
-    "testRunner": "jasmine2"
+    }
 }
