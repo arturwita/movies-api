@@ -6,9 +6,10 @@
   "scripts": {
     "clear": "rimraf dist",
     "start": "tsc && node ./dist/index.js",
+    "start:integration": "DB_PATH=/test/integration/data/test-db.json npm start",
     "start:dev": "npm run clear && ts-node-dev index.ts",
-    "test:unit": "jest test/unit --runInBand",
-    "test:integration": "NODE_CONFIG_DIR=./test/integration/config/ jest test/integration --runInBand"
+    "test": "jest test/unit --runInBand",
+    "test:integration": "DB_PATH=/test/integration/data/test-db.json jest test/integration --runInBand"
   },
   "repository": {
     "type": "git",

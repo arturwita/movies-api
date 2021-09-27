@@ -1,3 +1,4 @@
+import { join } from "path";
 import { writeFileSync, readFileSync } from "fs";
 import { random, orderBy } from "lodash";
 import { AppDependencies } from "../dependency-injection";
@@ -5,7 +6,7 @@ import { DbMovie, Genre, Movie } from "../dto";
 import { dbMovieToMovieConverter, movieToDbMovieConverter } from "../converter";
 import { getArrayCombinations, compareArrays, checkMoviesEquality, isNumberInRange } from "../util";
 
-interface FileDatabase {
+export interface FileDatabase {
     genres: Genre[];
     movies: DbMovie[];
 }
@@ -17,7 +18,7 @@ export class MovieRepository {
     constructor({ config }: AppDependencies) {
         const { dbPath, durationOffset } = config.get("app");
 
-        this.dbPath = `${process.cwd()}/${dbPath}`;
+        this.dbPath = join(process.cwd(), dbPath);
         this.durationOffset = durationOffset;
     }
 

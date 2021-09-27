@@ -14,8 +14,9 @@ describe("Movie Controller", () => {
     };
     const movies: Movie[] = [movie];
 
+    const getMovies = jest.fn((): Movie[] | Movie => movies);
     const movieService = {
-        getMovies: jest.fn(() => movies),
+        getMovies,
         addMovie: jest.fn(() => movie),
     };
     const movieValidator = {
@@ -50,6 +51,7 @@ describe("Movie Controller", () => {
     });
 
     afterEach(() => {
+        getMovies.mockReturnValue(movies);
         jest.clearAllMocks();
     });
 
@@ -107,11 +109,7 @@ describe("Movie Controller", () => {
             const status = 200;
             const body = { movie };
 
-            const movieService = {
-                getMovies: jest.fn(() => movie),
-            };
-            // @ts-ignore
-            movieController = new MovieController({ movieService, movieValidator, queryValidator });
+            getMovies.mockReturnValue(movie);
 
             // when
             // @ts-ignore
