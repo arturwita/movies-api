@@ -1,5 +1,5 @@
 import { asClass, asValue, createContainer, InjectionMode, AwilixContainer } from "awilix";
-import config, { IConfig } from "config";
+import { IConfig } from "config";
 import { Express } from "express";
 import { Logger } from "../util";
 import { MovieRouter } from "../router";
@@ -26,7 +26,7 @@ export interface AppDependencies {
 export class Container {
     readonly container: AwilixContainer;
 
-    constructor(app: Express) {
+    constructor(app: Express, config: IConfig) {
         this.container = createContainer({
             injectionMode: InjectionMode.PROXY,
         });
