@@ -16,7 +16,8 @@ export class MovieRepository {
 
     constructor({ config }: AppDependencies) {
         const { dbPath, durationOffset } = config.get("app");
-        this.dbPath = dbPath;
+
+        this.dbPath = `${process.cwd()}/${dbPath}`;
         this.durationOffset = durationOffset;
     }
 
