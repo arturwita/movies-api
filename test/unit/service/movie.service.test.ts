@@ -150,7 +150,7 @@ describe("Movie Service", () => {
                 id: 1,
                 ...movieInput,
             };
-            const expectedMovies = [randomMovie];
+            const expectedMovie = randomMovie;
 
             const movieRepository = {
                 getRandomMovie: jest.fn(() => randomMovie),
@@ -163,7 +163,7 @@ describe("Movie Service", () => {
             const collectedMovies = movieService.getMovies(query);
 
             // then
-            expect(collectedMovies).toEqual(expectedMovies);
+            expect(collectedMovies).toEqual(expectedMovie);
         });
 
         each([
@@ -234,7 +234,7 @@ describe("Movie Service", () => {
                 id: 1,
                 ...movieInput,
             };
-            const expectedMovies = [randomMovie];
+            const expectedMovie = randomMovie;
 
             const movieRepository = {
                 getRandomMovie: jest.fn(() => randomMovie),
@@ -247,7 +247,7 @@ describe("Movie Service", () => {
             const collectedMovies = movieService.getMovies(query);
 
             // then
-            expect(collectedMovies).toEqual(expectedMovies);
+            expect(collectedMovies).toEqual(expectedMovie);
         });
     });
 });

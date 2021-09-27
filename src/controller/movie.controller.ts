@@ -30,9 +30,10 @@ export class MovieController {
         const parsedQuery = this.parseQuery(request.query);
         const query = this.queryValidator.validate(parsedQuery);
 
-        const movies = this.movieService.getMovies(query);
+        const result = this.movieService.getMovies(query);
+        const body = Array.isArray(result) ? { movies: result } : { movie: result };
 
-        response.status(200).send({ movies });
+        response.status(200).send(body);
     }
 
     addMovie(request: CustomRequest, response: Response, _next: NextFunction): void {

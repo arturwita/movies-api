@@ -15,7 +15,7 @@ export class MovieService {
         this.logger = logger;
     }
 
-    getMovies(query: ParsedQuery): Movie[] {
+    getMovies(query: ParsedQuery): Movie[] | Movie {
         const { duration, genres } = query;
 
         switch (true) {
@@ -30,7 +30,7 @@ export class MovieService {
                     throw new Exception(422, "No movies found", HTTP_ERROR_CODE.UNPROCESSABLE_ENTITY);
                 }
 
-                return [randomMovie];
+                return randomMovie;
             }
             case !!genres: {
                 return this.movieRepository.getMoviesMatchingGenres(genres!);
@@ -42,7 +42,7 @@ export class MovieService {
                     throw new Exception(422, "No movies found", HTTP_ERROR_CODE.UNPROCESSABLE_ENTITY);
                 }
 
-                return [randomMovie];
+                return randomMovie;
             }
         }
     }

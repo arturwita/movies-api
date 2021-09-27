@@ -89,10 +89,29 @@ describe("Movie Controller", () => {
     });
 
     describe("Get Movies", () => {
-        it("Should return status 200 and an array of movies", () => {
+        it("Should return status 200 and an array of movies if service returns an array", () => {
             // given
             const status = 200;
             const body = { movies };
+
+            // when
+            // @ts-ignore
+            movieController.getMovies(request, response, next);
+
+            // then
+            runAssertions(status, body);
+        });
+
+        it("Should return status 200 and a single movie if service returns an object", () => {
+            // given
+            const status = 200;
+            const body = { movie };
+
+            const movieService = {
+                getMovies: jest.fn(() => movie),
+            };
+            // @ts-ignore
+            movieController = new MovieController({ movieService, movieValidator, queryValidator });
 
             // when
             // @ts-ignore
