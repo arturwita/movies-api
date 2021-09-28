@@ -1,5 +1,0 @@
-{
-    app: {
-        dbPath: "data/db.json",
-    }
-}

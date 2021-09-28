@@ -1,5 +1,5 @@
 import got from "got";
-import { moviesApiUrl } from "./helper/send-request.helper";
+import { moviesApiUrl } from "./util/send-request";
 
 describe("CORS", () => {
     it("Should be enabled", async () => {
