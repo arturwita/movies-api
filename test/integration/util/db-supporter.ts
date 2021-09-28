@@ -26,15 +26,12 @@ export const readDb = (): ParsedDatabase => {
     };
 };
 
-export const addToDb = (movie: Movie, genres: Genre[] = predefinedGenres): void => {
+export const addToDb = (movie: Movie, genres?: Genre[]): void => {
     const db = readFile();
-
     const newMovie = movieToDbMovieConverter(movie);
-    db.movies.push(newMovie);
 
-    if (genres) {
-        db.genres = genres;
-    }
+    db.movies.push(newMovie);
+    db.genres = genres ? genres : predefinedGenres;
 
     writeFileSync(filePath, JSON.stringify(db, null, 4));
 };
