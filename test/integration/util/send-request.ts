@@ -5,7 +5,9 @@ export const moviesApiUrl = "http://localhost:8000/movies";
 
 export const sendGetRequest = (query: QueryParams): CancelableRequest =>
     got(moviesApiUrl, {
-        searchParams: JSON.stringify(query),
+        searchParams: {
+            ...query,
+        },
         responseType: "json",
     });
 
