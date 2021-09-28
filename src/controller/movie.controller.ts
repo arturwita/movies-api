@@ -37,8 +37,7 @@ export class MovieController {
     }
 
     addMovie(request: CustomRequest, response: Response, _next: NextFunction): void {
-        const movieInput = request.body;
-        this.movieValidator.validate(movieInput);
+        const movieInput = this.movieValidator.validate(request.body);
 
         const movie = this.movieService.addMovie(movieInput);
 

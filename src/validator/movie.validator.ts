@@ -12,9 +12,11 @@ export class MovieValidator {
         this.logger = logger;
     }
 
-    validate(movieInput: MovieInput, predefinedGenres: Genre[] = genres): void {
+    validate(movieInput: MovieInput, predefinedGenres: Genre[] = genres): MovieInput {
+        let parsedMovie: MovieInput;
+
         try {
-            MovieSchema.parse(movieInput);
+            parsedMovie = MovieSchema.parse(movieInput);
         } catch (error) {
             this.logger.error("Input movie DTO does not match given schema", movieInput);
             throw new Exception(400, "Invalid movie schema", HTTP_ERROR_CODE.BAD_REQUEST, {
@@ -37,5 +39,7 @@ export class MovieValidator {
                 );
             }
         });
+
+        return parsedMovie;
     }
 }

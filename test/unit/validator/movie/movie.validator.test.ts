@@ -18,8 +18,8 @@ describe("Movie Validator", () => {
         error: jest.fn(),
     };
 
-    const testMovieValidator = (movieInput: MovieInput): void => {
-        validateMock(movieInput, predefinedGenres);
+    const testMovieValidator = (movieInput: MovieInput): MovieInput => {
+        return validateMock(movieInput, predefinedGenres);
     };
 
     beforeEach(() => {
@@ -32,13 +32,14 @@ describe("Movie Validator", () => {
         jest.clearAllMocks();
     });
 
-    each(validMovieInputCombinations).it("Should return void if movie has a valid schema", movieInput => {
+    each(validMovieInputCombinations).it("Should return parsed movie if movie has a valid schema", movieInput => {
         // when
-        testMovieValidator(movieInput);
+        const result = testMovieValidator(movieInput);
 
         // then
         expect(validateMock).toHaveBeenCalledTimes(1);
         expect(validateMock).toHaveBeenCalledWith(movieInput, predefinedGenres);
+        expect(result).toEqual(movieInput);
     });
 
     each(invalidMovieInputCombinations).it(
