@@ -1,5 +1,5 @@
 import { MovieService } from "../../../src/service";
-import { Movie, MovieInput, ParsedQuery } from "../../../src/dto";
+import { Genre, Movie, MovieInput, ParsedQuery } from "../../../src/dto";
 import { assertCustomError } from "../../assert-custom-error";
 import { Exception, ExceptionProps } from "../../../src/error";
 import each from "jest-each";
@@ -23,15 +23,33 @@ describe("Movie Service", () => {
         jest.clearAllMocks();
     });
 
+    describe("Get Genres", () => {
+        it("Should return genres from db", () => {
+            const predefinedGenres: Genre[] = ["Comedy", "Fantasy", "Crime"];
+            const movieRepository = {
+                getGenres: jest.fn(() => predefinedGenres),
+            };
+
+            // @ts-ignore
+            movieService = new MovieService({ movieRepository, logger });
+
+            // when
+            const preparedMovie = movieService.getGenres();
+
+            // then
+            expect(preparedMovie).toEqual(predefinedGenres);
+        });
+    });
+
     describe("Prepare Movie Payload", () => {
-        const movieRepository = {
-            getMovies: jest.fn(() => []),
-        };
-
-        // @ts-ignore
-        movieService = new MovieService({ movieRepository, logger });
-
         it("Should generate movie id and return payload of Movie type", () => {
+            const movieRepository = {
+                getMovies: jest.fn(() => []),
+            };
+
+            // @ts-ignore
+            movieService = new MovieService({ movieRepository, logger });
+
             // given
             const expectedMovie: Movie = {
                 id: 1,

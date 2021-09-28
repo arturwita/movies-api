@@ -1,5 +1,4 @@
 import { AppDependencies } from "../dependency-injection";
-import { genres as _predefinedGenres } from "../../data/db.json";
 import { Genre, ParsedQuery } from "../dto";
 import { Exception, HTTP_ERROR_CODE } from "../error";
 import { Logger } from "../util";
@@ -11,7 +10,7 @@ export class QueryValidator {
         this.logger = logger;
     }
 
-    validate(query: ParsedQuery, predefinedGenres: Genre[] = _predefinedGenres): ParsedQuery {
+    validate(query: ParsedQuery, predefinedGenres: Genre[]): ParsedQuery {
         const { duration, genres } = query;
 
         if (duration !== null && isNaN(duration)) {

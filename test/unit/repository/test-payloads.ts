@@ -1,4 +1,6 @@
-import { Movie } from "../../../src/dto";
+import { Genre, Movie } from "../../../src/dto";
+
+export const exampleGenres: Genre[] = ["Comedy", "Fantasy", "Crime"];
 
 export const exampleMovies: Movie[] = [
     {

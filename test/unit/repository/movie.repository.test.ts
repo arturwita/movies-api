@@ -2,7 +2,7 @@ import { writeFileSync } from "fs";
 import { MovieRepository } from "../../../src/repository";
 import { getDbPath } from "../test-db-utils";
 import { Genre, Movie } from "../../../src/dto";
-import { exampleMovies } from "./test-payloads";
+import { exampleMovies, exampleGenres } from "./test-payloads";
 
 describe("Movie Repository", () => {
     let movieRepository: MovieRepository;
@@ -30,6 +30,16 @@ describe("Movie Repository", () => {
 
             // then
             expect(movies).toEqual(expect.arrayContaining(exampleMovies));
+        });
+    });
+
+    describe("Get Genres", () => {
+        it("Should read genres from db", () => {
+            // when
+            const movies = movieRepository.getGenres();
+
+            // then
+            expect(movies).toEqual(expect.arrayContaining(exampleGenres));
         });
     });
 

@@ -18,6 +18,7 @@ describe("Movie Controller", () => {
     const movieService = {
         getMovies,
         addMovie: jest.fn(() => movie),
+        getGenres: jest.fn(() => ["Biography", "Drama", "Thriller"]),
     };
     const movieValidator = {
         validate: jest.fn(),

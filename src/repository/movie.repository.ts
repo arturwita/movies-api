@@ -32,6 +32,11 @@ export class MovieRepository {
         return movies.map(movie => dbMovieToMovieConverter(movie));
     }
 
+    getGenres(): Genre[] {
+        const { genres } = this.readDbFile();
+        return genres;
+    }
+
     findMovieByData(givenMovie: Movie): Movie | null {
         const movies = this.getMovies();
         const foundMovie = movies.find(savedMovie => checkMoviesEquality(givenMovie, savedMovie));

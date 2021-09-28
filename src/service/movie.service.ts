@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { random } from "lodash";
 import { AppDependencies } from "../dependency-injection";
-import { Movie, MovieInput, ParsedQuery } from "../dto";
+import { Genre, Movie, MovieInput, ParsedQuery } from "../dto";
 import { MovieRepository } from "../repository";
 import { Exception, HTTP_ERROR_CODE, MOVIE_ERROR_CODE } from "../error";
 import { Logger } from "../util";
@@ -68,5 +68,9 @@ export class MovieService {
             id,
             ...movieInput,
         };
+    }
+
+    getGenres(): Genre[] {
+        return this.movieRepository.getGenres();
     }
 }

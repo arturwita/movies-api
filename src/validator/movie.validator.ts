@@ -1,5 +1,4 @@
 import { ZodError } from "zod";
-import { genres } from "../../data/db.json";
 import { Genre, MovieInput, MovieSchema } from "../dto";
 import { AppDependencies } from "../dependency-injection";
 import { Exception, HTTP_ERROR_CODE, MOVIE_ERROR_CODE } from "../error";
@@ -12,7 +11,7 @@ export class MovieValidator {
         this.logger = logger;
     }
 
-    validate(movieInput: MovieInput, predefinedGenres: Genre[] = genres): MovieInput {
+    validate(movieInput: MovieInput, predefinedGenres: Genre[]): MovieInput {
         let parsedMovie: MovieInput;
 
         try {
@@ -28,6 +27,7 @@ export class MovieValidator {
             if (!predefinedGenres.includes(inputGenre)) {
                 const details = {
                     invalidGenre: inputGenre,
+                    predefinedGenres,
                 };
 
                 this.logger.error("Input movie DTO contains unrecognised genre", details);

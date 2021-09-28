@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { AppDependencies } from "../dependency-injection";
 import { MovieService } from "../service";
-import { MovieInput, ParsedQuery, QueryParams } from "../dto";
+import { Genre, MovieInput, ParsedQuery, QueryParams } from "../dto";
 import { MovieValidator, QueryValidator } from "../validator";
 
 export type CustomRequest = Request<{}, {}, MovieInput, QueryParams>;
@@ -28,7 +28,8 @@ export class MovieController {
 
     getMovies(request: CustomRequest, response: Response, _next: NextFunction): void {
         const parsedQuery = this.parseQuery(request.query);
-        const query = this.queryValidator.validate(parsedQuery);
+        const predefinedGenres = this.getPredefinedGenres();
+        const query = this.queryValidator.validate(parsedQuery, predefinedGenres);
 
         const result = this.movieService.getMovies(query);
         const body = Array.isArray(result) ? { movies: result } : { movie: result };
@@ -37,10 +38,15 @@ export class MovieController {
     }
 
     addMovie(request: CustomRequest, response: Response, _next: NextFunction): void {
-        const movieInput = this.movieValidator.validate(request.body);
+        const predefinedGenres = this.getPredefinedGenres();
+        const movieInput = this.movieValidator.validate(request.body, predefinedGenres);
 
         const movie = this.movieService.addMovie(movieInput);
 
         response.status(201).send({ movie });
+    }
+
+    getPredefinedGenres(): Genre[] {
+        return this.movieService.getGenres();
     }
 }
