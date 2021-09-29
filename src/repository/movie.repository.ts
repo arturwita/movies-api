@@ -45,12 +45,10 @@ export class MovieRepository {
     }
 
     getMoviesInRuntimeRange(movies: Movie[], duration: number): Movie[] {
-        return movies.filter(movie => {
-            const rangeStart = duration - this.durationOffset;
-            const rangeEnd = duration + this.durationOffset;
+        const rangeStart = duration - this.durationOffset;
+        const rangeEnd = duration + this.durationOffset;
 
-            return isNumberInRange(movie.runtime, rangeStart, rangeEnd);
-        });
+        return movies.filter(movie => isNumberInRange(movie.runtime, rangeStart, rangeEnd));
     }
 
     getRandomMovie(getRandomNumber = random, duration?: number): Movie | null {
