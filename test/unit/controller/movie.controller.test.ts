@@ -1,5 +1,5 @@
 import { MovieController } from "../../../src/controller";
-import { Movie, ParsedQuery, QueryParams } from "../../../src/dto";
+import { Movie } from "../../../src/dto";
 
 describe("Movie Controller", () => {
     let movieController: MovieController;
@@ -54,41 +54,6 @@ describe("Movie Controller", () => {
     afterEach(() => {
         getMovies.mockReturnValue(movies);
         jest.clearAllMocks();
-    });
-
-    describe("Parse Query", () => {
-        it("Should parse request query params", () => {
-            // given
-            const query: QueryParams = {
-                duration: "60",
-                genres: `["Action", "Drama"]`,
-            };
-            const expectedResult: ParsedQuery = {
-                duration: 60,
-                genres: ["Action", "Drama"],
-            };
-
-            // when
-            const parsedQuery = movieController.parseQuery(query);
-
-            // then
-            expect(parsedQuery).toEqual(expectedResult);
-        });
-
-        it("Should return null for params which were not provided", () => {
-            // given
-            const query: QueryParams = {};
-            const expectedResult: ParsedQuery = {
-                duration: null,
-                genres: null,
-            };
-
-            // when
-            const parsedQuery = movieController.parseQuery(query);
-
-            // then
-            expect(parsedQuery).toEqual(expectedResult);
-        });
     });
 
     describe("Get Movies", () => {

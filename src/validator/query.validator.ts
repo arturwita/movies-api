@@ -1,5 +1,5 @@
 import { AppDependencies } from "../dependency-injection";
-import { Genre, ParsedQuery } from "../dto";
+import { Genre, ParsedQuery, QueryParams } from "../dto";
 import { Exception, HTTP_ERROR_CODE } from "../error";
 import { Logger } from "../util";
 
@@ -10,8 +10,16 @@ export class QueryValidator {
         this.logger = logger;
     }
 
-    validate(query: ParsedQuery, predefinedGenres: Genre[]): ParsedQuery {
-        const { duration, genres } = query;
+    validate(query: QueryParams, predefinedGenres: Genre[]): ParsedQuery {
+        const duration = query.duration ? Number.parseInt(query.duration, 10) : null;
+        let genres: string[] | null;
+
+        try {
+            genres = query.genres ? JSON.parse(query.genres) : null;
+        } catch (error) {
+            this.logger.error("Could not parse genres to an array", query.genres);
+            throw new Exception(400, "Could not parse genres to an array", HTTP_ERROR_CODE.BAD_REQUEST, query.genres);
+        }
 
         if (duration !== null && isNaN(duration)) {
             this.logger.error("Could not parse duration to number", query.duration);
