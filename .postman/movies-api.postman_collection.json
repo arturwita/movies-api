@@ -1,0 +1,66 @@
+{
+	"info": {
+		"_postman_id": "9d50b207-1959-40ea-a482-70f5d39019ea",
+		"name": "Movies API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get movies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/movies?duration=110&genres=[\"Biography\", \"Drama\", \"Thriller\"]",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"movies"
+					],
+					"query": [
+						{
+							"key": "duration",
+							"value": "110"
+						},
+						{
+							"key": "genres",
+							"value": "[\"Biography\", \"Drama\", \"Thriller\"]"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add movie",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Star Wars III\",\n    \"year\": 2005,\n    \"runtime\": 140,\n    \"genres\": [\n        \"Adventure\",\n        \"Sci-Fi\"\n    ],\n    \"director\": \"George Lucas\",\n    \"actors\": \"Ewan McGregor, Natalie Portman, Hayden Christensen\",\n    \"plot\": \"The Jedi are spread across the galaxy, leading a large-scale war against the Separatists. Following the death of Separatist leader Count Dooku, the Jedi Council dispatches Obi-Wan Kenobi to eliminate General Grievous, the head of the Separatist army, to put an end to the war.\",\n    \"posterUrl\": \"https://m.media-amazon.com/images/I/61jCCwfO6HL._AC_SL1000_.jpg\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/movies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
