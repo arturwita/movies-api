@@ -43,7 +43,55 @@ In any of those cases we don't want to have duplicates.
 - **Remember about proper error handling**
 - **We require code in git repository**
 
-### Custom Assumptions
+---
+
+## Installation
+
+The application can be run in two ways. No matter which way you are going to choose, remember to create a `.env` file in the project's root directory and set all required environment variables there.
+
+An example file can be found [here](.env.example).
+
+### a) Docker approach
+1. Run the application with docker-compose:
+```
+docker-compose up --build
+```
+
+### b) Manual approach
+1. Install application dependencies:
+```
+npm install
+```
+
+2. Run the application:
+```
+npm start
+```
+
+## Tests
+Before you will run tests make sure you have installed application dependencies with `npm install`.
+
+### a) Unit Tests
+1. To run unit tests simply run:
+```
+npm test
+```
+
+### a) Integration Tests
+1. Open two terminals in the project's root directory.
+
+2. In the first terminal, run the server in integration tests mode:
+```
+npm run start:integration
+```
+
+3. In the second terminal, run integration tests:
+```
+npm run test:integration
+```
+
+
+## Custom Assumptions
 
 - genres passed in the query params are expected to be passed in the following format: `["genre1", "genre2"]`
 - movies are considered to be equal if they contain the same information about the title, year, runtime, director and genres
