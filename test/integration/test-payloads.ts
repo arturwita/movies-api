@@ -1,5 +1,5 @@
 import { FileDatabase } from "../../src/repository";
-import { Genre, Movie, MovieInput } from "../../src/dto";
+import { Genre, Movie, MovieInput, QueryParams } from "../../src/dto";
 
 export const predefinedGenres: Genre[] = ["Biography", "Drama", "Thriller"];
 
@@ -24,3 +24,61 @@ export const defaultMovie: Movie = {
     id: 115,
     ...defaultMovieInput,
 };
+
+export const longMovie: Movie = {
+    id: 1,
+    ...defaultMovieInput,
+    runtime: 114,
+};
+
+export const shortMovie: Movie = {
+    id: 2,
+    ...defaultMovieInput,
+    runtime: 86,
+};
+
+export const biographyDramaMovie: Movie = {
+    id: 1,
+    ...defaultMovieInput,
+    genres: ["Biography", "Drama"],
+};
+
+export const shortBiographyDramaMovie: Movie = {
+    ...biographyDramaMovie,
+    runtime: 86,
+};
+
+export const dramaMovie: Movie = {
+    id: 2,
+    ...defaultMovieInput,
+    genres: ["Drama"],
+};
+
+export const shortDramaMovie: Movie = {
+    ...dramaMovie,
+    runtime: 86,
+};
+
+export const biographyMovie: Movie = {
+    id: 3,
+    ...defaultMovieInput,
+    genres: ["Biography"],
+};
+
+export const longBiographyMovie: Movie = {
+    ...biographyMovie,
+    runtime: 114,
+};
+
+export const comedyCrimeMovie: Movie = {
+    id: 4,
+    ...defaultMovieInput,
+    genres: ["Comedy", "Crime"],
+};
+
+export const noMoviesInDbErrorCases: QueryParams[] = [
+    // Case 1: no params were provided
+    {},
+    // Case 2: duration was provided
+    { duration: "114" },
+];
