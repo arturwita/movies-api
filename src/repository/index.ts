@@ -1,1 +1,1 @@
-export { MovieRepository } from "./movie.repository";
+export { MovieRepository, FileDatabase } from "./movie.repository";

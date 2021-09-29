@@ -4,6 +4,6 @@ export interface QueryParams {
 }
 
 export interface ParsedQuery {
-    duration?: number;
-    genres?: string[];
+    duration: number | null;
+    genres: string[] | null;
 }

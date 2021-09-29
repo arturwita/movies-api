@@ -1,3 +1,4 @@
+import { join } from "path";
 import { writeFileSync, readFileSync } from "fs";
 import { random, orderBy } from "lodash";
 import { AppDependencies } from "../dependency-injection";
@@ -5,7 +6,7 @@ import { DbMovie, Genre, Movie } from "../dto";
 import { dbMovieToMovieConverter, movieToDbMovieConverter } from "../converter";
 import { getArrayCombinations, compareArrays, checkMoviesEquality, isNumberInRange } from "../util";
 
-interface FileDatabase {
+export interface FileDatabase {
     genres: Genre[];
     movies: DbMovie[];
 }
@@ -15,8 +16,10 @@ export class MovieRepository {
     readonly durationOffset: number;
 
     constructor({ config }: AppDependencies) {
-        this.dbPath = config.get("app.dbPath");
-        this.durationOffset = config.get("app.durationOffset");
+        const { dbPath, durationOffset } = config.get("app");
+
+        this.dbPath = join(process.cwd(), dbPath);
+        this.durationOffset = durationOffset;
     }
 
     private readDbFile(): FileDatabase {
@@ -24,14 +27,14 @@ export class MovieRepository {
         return JSON.parse(buffer.toString());
     }
 
-    getGenres(): Genre[] {
-        const { genres } = this.readDbFile();
-        return genres;
-    }
-
     getMovies(): Movie[] {
         const { movies } = this.readDbFile();
         return movies.map(movie => dbMovieToMovieConverter(movie));
+    }
+
+    getGenres(): Genre[] {
+        const { genres } = this.readDbFile();
+        return genres;
     }
 
     findMovieByData(givenMovie: Movie): Movie | null {
@@ -50,7 +53,7 @@ export class MovieRepository {
         });
     }
 
-    getRandomMovie(duration?: number, getRandomNumber = random): Movie | null {
+    getRandomMovie(getRandomNumber = random, duration?: number): Movie | null {
         const savedMovies = this.getMovies();
         const moviesToSearchIn = duration ? this.getMoviesInRuntimeRange(savedMovies, duration) : savedMovies;
 

@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import { AppDependencies } from "../dependency-injection";
 import { MovieService } from "../service";
-import { MovieInput, ParsedQuery, QueryParams } from "../dto";
+import { Genre, MovieInput, QueryParams } from "../dto";
 import { MovieValidator, QueryValidator } from "../validator";
 
-type CustomRequest = Request<{}, {}, MovieInput, QueryParams>;
+export type CustomRequest = Request<{}, {}, MovieInput, QueryParams>;
 
 export class MovieController {
     readonly movieService: MovieService;
@@ -17,30 +17,26 @@ export class MovieController {
         this.queryValidator = queryValidator;
     }
 
-    parseQuery(query: QueryParams): ParsedQuery {
-        const { duration, genres } = query;
+    getMovies(request: CustomRequest, response: Response, _next: NextFunction): void {
+        const predefinedGenres = this.getPredefinedGenres();
+        const query = this.queryValidator.validate(request.query, predefinedGenres);
 
-        return {
-            duration: duration ? Number.parseInt(duration, 10) : undefined,
-            genres: genres ? JSON.parse(genres) : undefined,
-        };
+        const result = this.movieService.getMovies(query);
+        const body = Array.isArray(result) ? { movies: result } : { movie: result };
+
+        response.status(200).send(body);
     }
 
-    getMovies(req: CustomRequest, res: Response, _next: NextFunction): void {
-        const parsedQuery = this.parseQuery(req.query);
-        const query = this.queryValidator.validate(parsedQuery);
-
-        const movies = this.movieService.getMovies(query);
-
-        res.status(200).send({ movies });
-    }
-
-    addMovie(req: CustomRequest, res: Response, _next: NextFunction): void {
-        const movieInput = req.body;
-        this.movieValidator.validate(req.body);
+    addMovie(request: CustomRequest, response: Response, _next: NextFunction): void {
+        const predefinedGenres = this.getPredefinedGenres();
+        const movieInput = this.movieValidator.validate(request.body, predefinedGenres);
 
         const movie = this.movieService.addMovie(movieInput);
 
-        res.status(201).send({ movie });
+        response.status(201).send({ movie });
+    }
+
+    getPredefinedGenres(): Genre[] {
+        return this.movieService.getGenres();
     }
 }

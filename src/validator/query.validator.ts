@@ -1,33 +1,37 @@
 import { AppDependencies } from "../dependency-injection";
-import { ParsedQuery } from "../dto";
+import { Genre, ParsedQuery, QueryParams } from "../dto";
 import { Exception, HTTP_ERROR_CODE } from "../error";
-import { MovieRepository } from "../repository";
 import { Logger } from "../util";
 
 export class QueryValidator {
     logger: Logger;
-    movieRepository: MovieRepository;
 
-    constructor({ logger, movieRepository }: AppDependencies) {
+    constructor({ logger }: AppDependencies) {
         this.logger = logger;
-        this.movieRepository = movieRepository;
     }
 
-    validate(query: ParsedQuery): ParsedQuery {
-        const { duration, genres } = query;
+    validate(query: QueryParams, predefinedGenres: Genre[]): ParsedQuery {
+        const duration = query.duration ? Number.parseInt(query.duration, 10) : null;
+        let genres: string[] | null;
 
-        if (!!duration && isNaN(duration)) {
+        try {
+            genres = query.genres ? JSON.parse(query.genres) : null;
+        } catch (error) {
+            this.logger.error("Could not parse genres to an array", query.genres);
+            throw new Exception(400, "Could not parse genres to an array", HTTP_ERROR_CODE.BAD_REQUEST, query.genres);
+        }
+
+        if (duration !== null && isNaN(duration)) {
             this.logger.error("Could not parse duration to number", query.duration);
             throw new Exception(400, "Could not parse duration to number", HTTP_ERROR_CODE.BAD_REQUEST, query.duration);
         }
 
-        if (!!genres && !Array.isArray(genres)) {
+        if (genres && !Array.isArray(genres)) {
             this.logger.error("Genres should be an array", query.genres);
             throw new Exception(400, "Genres should be an array", HTTP_ERROR_CODE.BAD_REQUEST, query.genres);
         }
 
         if (genres) {
-            const predefinedGenres = this.movieRepository.getGenres();
             const areGenresValid = genres.every(inputGenre => predefinedGenres.includes(inputGenre));
 
             if (!areGenresValid) {

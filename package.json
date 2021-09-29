@@ -5,8 +5,11 @@
   "main": "index.js",
   "scripts": {
     "clear": "rimraf dist",
-    "start": "npm run clear && ts-node-dev index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "tsc && node ./dist/index.js",
+    "start:integration": "DB_PATH=/test/integration/data/test-db.json npm start",
+    "start:dev": "npm run clear && ts-node-dev index.ts",
+    "test": "jest test/unit --runInBand",
+    "test:integration": "DB_PATH=/test/integration/data/test-db.json jest test/integration --runInBand"
   },
   "repository": {
     "type": "git",
@@ -34,6 +37,7 @@
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "@types/glob": "^7.1.4",
+    "@types/jest": "^27.0.2",
     "@types/lodash": "^4.14.173",
     "@types/node": "^16.9.5",
     "@typescript-eslint/eslint-plugin": "^4.31.2",
@@ -41,8 +45,11 @@
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "got": "^11.8.2",
+    "jest": "^27.2.1",
     "prettier": "^2.4.1",
     "rimraf": "^3.0.2",
+    "ts-jest": "^27.0.5",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.4.3"
   }

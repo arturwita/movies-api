@@ -12,12 +12,15 @@ export class ErrorHandlerMiddleware {
     }
 
     use(error: Exception, _req: Request, res: Response, _next: NextFunction): void {
-        this.logger.error(error.message, error);
+        const defaultMessage = "Internal server error";
+        const errorMessage = get(error, "message", defaultMessage);
 
         const status = get(error, "status", 500);
         const errorCode = get(error, "errorCode", HTTP_ERROR_CODE.INTERNAL_SERVER_ERROR);
         const details = get(error, "details", null);
-        const message = status >= 500 ? "Internal server error" : error.message;
+        const message = status >= 500 ? defaultMessage : errorMessage;
+
+        this.logger.error(errorMessage, error);
 
         res.status(status).send({
             message,

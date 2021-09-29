@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { random } from "lodash";
 import { AppDependencies } from "../dependency-injection";
-import { Movie, MovieInput, ParsedQuery } from "../dto";
+import { Genre, Movie, MovieInput, ParsedQuery } from "../dto";
 import { MovieRepository } from "../repository";
 import { Exception, HTTP_ERROR_CODE, MOVIE_ERROR_CODE } from "../error";
 import { Logger } from "../util";
@@ -14,7 +15,7 @@ export class MovieService {
         this.logger = logger;
     }
 
-    getMovies(query: ParsedQuery): Movie[] {
+    getMovies(query: ParsedQuery): Movie[] | Movie {
         const { duration, genres } = query;
 
         switch (true) {
@@ -22,36 +23,32 @@ export class MovieService {
                 const moviesMatchingGenres = this.movieRepository.getMoviesMatchingGenres(genres!);
                 return this.movieRepository.getMoviesInRuntimeRange(moviesMatchingGenres, duration!);
             }
-            case !duration && !genres: {
+            case !!duration: {
+                const randomMovie = this.movieRepository.getRandomMovie(random, duration!);
+                if (!randomMovie) {
+                    this.logger.error("No movies found");
+                    throw new Exception(422, "No movies found", HTTP_ERROR_CODE.UNPROCESSABLE_ENTITY);
+                }
+
+                return randomMovie;
+            }
+            case !!genres: {
+                return this.movieRepository.getMoviesMatchingGenres(genres!);
+            }
+            default: {
                 const randomMovie = this.movieRepository.getRandomMovie();
                 if (!randomMovie) {
                     this.logger.error("No movies found");
                     throw new Exception(422, "No movies found", HTTP_ERROR_CODE.UNPROCESSABLE_ENTITY);
                 }
 
-                return [randomMovie];
-            }
-            case !!duration: {
-                const randomMovie = this.movieRepository.getRandomMovie(duration);
-                if (!randomMovie) {
-                    this.logger.error("No movies found");
-                    throw new Exception(422, "No movies found", HTTP_ERROR_CODE.UNPROCESSABLE_ENTITY);
-                }
-
-                return [randomMovie];
-            }
-            case !!genres: {
-                return this.movieRepository.getMoviesMatchingGenres(genres!);
-            }
-            default: {
-                this.logger.error("Unhandled execution path", query);
-                throw new Exception(501, "Not implemented", HTTP_ERROR_CODE.NOT_IMPLEMENTED);
+                return randomMovie;
             }
         }
     }
 
-    addMovie(movieInputDto: MovieInput): Movie {
-        const newMovie = this.prepareMoviePayload(movieInputDto);
+    addMovie(movieInput: MovieInput): Movie {
+        const newMovie = this.prepareMoviePayload(movieInput);
 
         const movieExists = this.movieRepository.findMovieByData(newMovie);
 
@@ -63,13 +60,17 @@ export class MovieService {
         return this.movieRepository.saveMovie(newMovie);
     }
 
-    prepareMoviePayload(movieInputDto: MovieInput): Movie {
+    prepareMoviePayload(movieInput: MovieInput): Movie {
         const allMovies = this.movieRepository.getMovies();
         const id = allMovies.length + 1;
 
         return {
             id,
-            ...movieInputDto,
+            ...movieInput,
         };
+    }
+
+    getGenres(): Genre[] {
+        return this.movieRepository.getGenres();
     }
 }

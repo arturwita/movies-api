@@ -1,2 +1,1 @@
-export { MovieRouter } from "./movie-router";
-export { moviesUrl } from "./url";
+export { MovieRouter, moviesUrl } from "./movie.router";
